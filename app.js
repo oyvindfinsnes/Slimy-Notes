@@ -2,8 +2,8 @@ const { app, Menu, BrowserWindow, ipcMain, dialog } = require("electron");
 const path = require("path");
 const fs = require("fs");
 
-const w = { min: 300, max: 1000 };
-const h = { min: 320, max: 1000 };
+const w = { min: 320, max: 1000 };
+const h = { min: 360, max: 1000 };
 
 let config;
 const configPath = path.join(__dirname, "noteconfig.json");
@@ -57,6 +57,8 @@ const handleOpenNoteWindow = (e, name = `note${config.windows.length}`) => {
 	win.on("resize", e => storeWindowGeometry(e));
 	win.once("ready-to-show", () => win.show());
 	win.loadURL(path.join("file://", __dirname, "app", "note", "note.html"));
+
+	win.webContents.openDevTools();
 
 	return name;
 };

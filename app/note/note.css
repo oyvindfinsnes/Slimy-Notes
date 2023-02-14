@@ -5,76 +5,131 @@
 
 :root {
     --theme-color: #000000;
+
+	/* --ck-color-button-default-background: var(--note-color);
+	--ck-color-button-default-hover-background: rgba(0, 0, 0, 0.2);
+	--ck-color-button-default-active-background: rgba(0, 0, 0, 0.4);
+	--ck-color-button-default-disabled-background: transparent;
+
+	--ck-color-button-on-background: rgba(0, 0, 0, 0.2);
+	--ck-color-button-on-hover-background: rgba(0, 0, 0, 0.2);
+	--ck-color-button-on-active-background: rgba(0, 0, 0, 0.4);
+	--ck-color-button-on-disabled-background: transparent;
+	--ck-color-button-on-color: rgba(0, 0, 0, 0.4);
+
+
+	--ck-color-button-action-background: rgba(0, 0, 0, 0.4);
+	--ck-color-button-action-hover-background: rgba(0, 0, 0, 0.2);
+	--ck-color-button-action-active-background: rgba(0, 0, 0, 0.4);
+	--ck-color-button-action-disabled-background: transparent;
+	--ck-color-button-action-text: var(--theme-color);
+
+	--ck-color-switch-button-off-background: transparent;
+	--ck-color-switch-button-off-hover-background: rgba(0, 0, 0, 0.2);
+	--ck-color-switch-button-on-background: rgba(0, 0, 0, 0.4);
+	--ck-color-switch-button-on-hover-background: rgba(0, 0, 0, 0.2);
+	--ck-color-switch-button-inner-background: rgba(0, 0, 0, 0.2);
+	/*--ck-color-switch-button-inner-shadow:						hsla(0, 0%, 0%, 0.1); */
+
+
+
+	/* --ck-color-dropdown-panel-background: var(--note-color) !important;
+	--ck-color-dropdown-panel-border: var(--note-color) !important;
+
+	--ck-color-list-background: var(--note-color) !important;
+	--ck-color-list-button-hover-background: rgba(0, 0, 0, 0.2);
+	--ck-color-list-button-on-background: rgba(0, 0, 0, 0.4);
+	--ck-color-list-button-on-background-focus: transparent;
+	--ck-color-list-button-on-text: var(--theme-color); */
+
+	/* --ck-color-panel-background: var(--note-color) !important;
+	--ck-color-panel-border: var(--note-color) !important;
+	--ck-color-toolbar-background: var(--note-color) !important;
+	--ck-color-toolbar-border: var(--note-color) !important; */
+
+	/* -- Tooltip ------------------------------------------------------------------------------- */
+
+	/* --ck-color-tooltip-background: 								var(--ck-color-base-text);
+	--ck-color-tooltip-text: 									var(--ck-color-base-background); */
+
+	/* -- Link -------------------------------------------------------------------------------- */
+
+	/* --ck-color-link-default:									hsl(240, 100%, 47%);
+	--ck-color-link-selected-background:						hsla(201, 100%, 56%, 0.1);
+	--ck-color-link-fake-selection:								hsla(201, 100%, 56%, 0.3); */
 }
 
 body {
-    font-size: 14px;
-    font-family: "Roboto";
+    font-size: 16px;
+    font-family: "Nunito";
     color: var(--theme-color);
 }
 
-.tox-statusbar {
-    display: none !important;
+svg {
+    fill: var(--theme-color);
 }
 
-.tox-tinymce {
-    border: none !important;
+.topbar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
 }
 
-.tox-tbtn--select,
-#mainContainer_ifr,
-.tox-editor-header,
-.tox-toolbar-overlord,
-.tox-toolbar__primary,
-.tox-collection__item--enabled {
-    background: none !important;
+.appicon-dropdown-container {
+    backdrop-filter: blur(2px);
+    background: var(--note-color);
 }
 
-.tox-tbtn:focus,
-.tox-split-button:focus,
-.tox-tbtn--disabled:hover {
-    background: none !important;
+.appicon-dropdown-container {
+    font-size: 16px;
+    box-shadow: 0 0 2px 0 rgb(34 47 62 / 20%), 0 4px 8px 0 rgb(34 47 62 / 15%);
+}
+
+.appicon-dropdown-item:hover {
+    background-color: rgba(0, 0, 0, 0.2);
 }
 
 .main-container {
-    height: calc(100% - 30px) !important;
-}
-
-.tox-tbtn--select[title="Font sizes"] {
-    width: 60px !important;
-}
-
-.colorpicker-container::after {
-    content: "";
     position: absolute;
-    top: -30px;
-    left: -30px;
+    outline: none;
+    top: 30px;
+    left: 0;
+    width: 100vw;
+    height: calc(100vh - 30px);
+}
+
+.colorpicker-background {
+    position: absolute;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    top: 0;
+    left: 0;
     width: 100vw;
     height: 100vh;
     background-color: rgba(0, 0, 0, 0.7);
-    z-index: -1;
-}
-
-.colorpicker-container {
-    position: absolute;
-    display: none;
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
-    grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr;
-    gap: 25px;
-    top: 30px;
-    left: 30px;
-    padding: 25px;
-    border-radius: 10px;
-    box-sizing: border-box;
-    width: calc(100vw - 60px);
-    height: calc(100vh - 60px);
-    background-color: #202020;
     z-index: 10000;
 }
 
-.colorpicker-container.active {
-    display: grid;
+.colorpicker-background.active {
+    display: flex;
     animation: scaleFade forwards 0.2s ease;
+}
+
+.colorpicker-container {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: repeat(6, 1fr);
+    gap: 25px;
+    padding: 25px;
+    border-radius: 10px;
+    box-sizing: border-box;
+    width: 90vw;
+    height: 90vh;
+    max-width: 500px;
+    max-height: 500px;
+    background-color: #202020;
 }
 
 .colorpicker-color {
@@ -87,7 +142,7 @@ body {
 }
 
 .colorpicker-color:hover:not(.selected) {
-    transform: scale(1.1);
+    transform: scale(1.15);
 }
 
 .colorpicker-color.selected .checkmark {
@@ -129,69 +184,41 @@ body {
     background-color: #ffffff;
 }
 
-.tox-menu,
-.tox-toolbar__overflow,
-.appicon-dropdown-container {
-    backdrop-filter: blur(2px);
-    background: var(--note-color) !important;
+.ck-dropdown__panel {
+	overflow-y: auto;
+	max-height: 40vh;
 }
 
-.appicon-dropdown-container {
-    font-size: 16px;
-    box-shadow: 0 0 2px 0 rgb(34 47 62 / 20%), 0 4px 8px 0 rgb(34 47 62 / 15%);
+.ck-dropdown__panel::-webkit-scrollbar {
+    width: 8px !important;
 }
 
-svg {
-    fill: var(--theme-color) !important;
+.ck-dropdown__panel::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.1) !important;
 }
 
-body,
-.tox-tbtn__select-label,
-.tox-collection__item-label {
-    color: var(--theme-color) !important;
+.ck-dropdown__panel::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.3) !important;
 }
 
-.appicon-dropdown-item:hover {
-    background-color: rgba(0, 0, 0, 0.2);
+.ck-editor__editable {
+    border: none !important;
+    box-shadow: none !important;
 }
 
-.tox-tbtn:hover,
-.tox-collection__item--active {
-    background: rgba(0, 0, 0, 0.4) !important;
-}
-
-.tox-tbtn--enabled {
-    background: rgba(0, 0, 0, 0.4) !important;
-}
-
-.mce-content-body::-webkit-scrollbar {
-    width: 8px;
-    background: none;
-}
-
-.tox-collection--list::-webkit-scrollbar {
-    width: 8px;
-    background: rgba(0, 0, 0, 0.2);
-}
-
-.mce-content-body::-webkit-scrollbar-thumb,
-.tox-collection--list::-webkit-scrollbar-thumb {
-    border-radius: 5px;
-    background: rgba(0, 0, 0, 0.4);
-}
-
-@media only screen and (max-width: 500px) {
+@media only screen and (max-width: 400px),
+       screen and (max-height: 400px) {
     .colorpicker-container::after {
-        top: -5px;
-        left: -5px;
+        top: -10px;
+        left: -10px;
     }
 
     .colorpicker-container {
-        gap: 5px;
-        top: 5px;
-        left: 5px;
-        padding: 5px;
-        width: calc(100vw - 10px);
-        height: calc(100vh - 10px);
+        gap: 10px;
+        top: 10px;
+        left: 10px;
+        padding: 10px;
+        width: calc(100vw - 20px);
+        height: calc(100vh - 20px);
     }
 }

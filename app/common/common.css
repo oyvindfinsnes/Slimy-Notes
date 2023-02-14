@@ -38,6 +38,7 @@ body {
     align-items: center;
     justify-content: space-between;
     font-size: 13px;
+    font-weight: bold;
 }
 
 .appicon-container {

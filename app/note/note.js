@@ -1,23 +1,16 @@
 const { handleReceiveNoteTitle, getNoteData, saveNoteContent, setNewNoteBackground } = window.electronAPI;
 
-let editSaveTimeout = null;
-const fontFamilies = ["Anonymous Pro=anonymous pro", "Arial=arial", "Calibri=calibri", "Courier Prime=courier prime", "Fredoka One=fredoka one", "Lilita One=lilita one", "Monospace=monospace", "Montserrat=montserrat", "Nunito=nunito", "Open Sans=open sans", "Roboto=roboto", "Sans Serif=sans-serif", "Serif=serif"];
-const fontImports = `@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");@import url("https://fonts.googleapis.com/css2?family=Anonymous+Pro:ital,wght@0,400;0,700;1,400;1,700&display=swap");@import url('https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&display=swap');@import url('https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap');@import url('https://fonts.googleapis.com/css2?family=Lilita+One&display=swap');@import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;0,1000;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900;1,1000&display=swap');@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap');@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');`;
-const fontSizes = ["8px", "9px", "10px", "12px", "14px", "16px", "18px", "20px", "24px", "32px", "42px", "54px", "68px", "84px"];
-
 // Handlers ====================================================================
 
 handleReceiveNoteTitle((e, title) => {
     document.querySelector(".apptitle").textContent = title;
 });
 
-const handleEditorChanged = () => {
-    clearTimeout(editSaveTimeout);
-
-    editSaveTimeout = setTimeout(() => {
-        const content = tinymce.activeEditor.getContent();
-        saveNoteContent(content);
-    }, 1000);
+const handleEditorSave = () => {
+    return new Promise(res => {
+        saveNoteContent(window.editor.getData());
+        res();
+    });
 };
 
 // Utilities ===================================================================
@@ -60,18 +53,6 @@ const getTextColorBasedOnBackground = bgcolor => {
     return textColors[index];
 };
 
-const updateEditorColor = color => {
-    let c = tinymce.activeEditor.getContent();
-    
-    if (color === "#ffffff") {
-        c = c.replace(/rgb\(0, 0, 0\)/g, "rgb(255, 255, 255)");
-    } else {
-        c = c.replace(/rgb\(255, 255, 255\)/g, "rgb(0, 0, 0)");
-    }
-
-    tinymce.activeEditor.setContent(c);
-};
-
 // Initialization ==============================================================
 
 const initNoteData = async () => {
@@ -90,49 +71,28 @@ const initNoteData = async () => {
     
     document.querySelector(".apptitle").textContent = noteTitle;
     
-    tinymce.activeEditor.setContent(noteContent);
-
-    // Let's hack it boys
-    setTimeout(() => updateEditorColor(bestColor), 1000);
+    window.editor.setData(noteContent);
 };
 
-const initTinyMCE = () => {
-    tinymce.init({
-        selector: "div#mainContainer",
-        menubar: false,
-        plugins: "lists",
-        toolbar: "fontfamily fontsize | formatgroup paragraphgroup | notecolorbutton",
-        toolbar_groups: {
-            formatgroup: {
-                icon: "format",
-                tooltip: "Formatting",
-                items: "bold italic underline | forecolor | removeformat"
+const initCKE = () => {
+    BalloonEditor.create(document.querySelector("#mainContainer"), {
+        toolbar: { items: ["bold", "italic", "underline", "|", "fontFamily", "fontSize", "fontColor", "|", "highlight", "removeFormat", "|", "link", "strikethrough", "horizontalLine", "|", "bulletedList", "numberedList", "todoList", "|", "indent", "outdent", "alignment"] },
+        fontSize: { options: [10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32, 36, 42] },
+        fontFamily: { options: ["Anonymous Pro", "Arial", "Calibri", "Courier Prime", "Default", "Fredoka One", "Lilita One", "Monospace", "Montserrat", "Open Sans", "Roboto", "Sans-Serif", "Serif"] },
+        autosave: {
+            save() {
+                return handleEditorSave();
             },
-            paragraphgroup: {
-                icon: "paragraph",
-                tooltip: "Paragraph format",
-                items: "bullist numlist | alignleft aligncenter alignright | indent outdent"
-            },
-        },
-        font_size_formats: fontSizes.join(" "),
-        font_family_formats: fontFamilies.join("; "),
-        content_style: fontImports,
-        content_css: "./note.css",
-        setup: editor => {
-            editor.on("input", () => handleEditorChanged());
-            editor.addShortcut("meta+s", "Save content in config", () => handleEditorChanged());
-            editor.on("init", () => initNoteData());
-
-            editor.ui.registry.addButton("notecolorbutton", {
-                icon: "fill",
-                onAction: () => document.querySelector(".colorpicker-container").classList.add("active")
-            });
+            waitingTime: 500
         }
+    }).then(editor => {
+        window.editor = editor;
+        initNoteData();
     });
 };
 
 const initColorPicker = () => {
-    const container = document.querySelector(".colorpicker-container");
+    const container = document.querySelector(".colorpicker-background");
     const colors = [...document.querySelectorAll(".colorpicker-color")];
 
     const handlePickedColor = e => {
@@ -150,8 +110,6 @@ const initColorPicker = () => {
         const bestColor = getTextColorBasedOnBackground(color);
         document.querySelector(":root").style.setProperty("--theme-color", bestColor);
 
-        updateEditorColor(bestColor);
-
         document.body.setAttribute("style", "--note-color:" + color + ";");
 
         container.classList.remove("active");
@@ -162,14 +120,13 @@ const initColorPicker = () => {
         elem.innerHTML = `<span class="checkmark"><div class="checkmark-circle"></div><div class="checkmark-stem"></div><div class="checkmark-kick"></div></span>`;
         elem.addEventListener("click", e => handlePickedColor(e));
     });
+
+    document.querySelector("#btnColorPicker").addEventListener("click", () => {
+        container.classList.add("active");
+    });
 };
 
 window.addEventListener("DOMContentLoaded", async () => {
     initColorPicker();
-    initTinyMCE();
-
-    // Backup listener to save content in case editor isn't focused
-    document.addEventListener("keypress", e => {
-        if (e.ctrlKey && e.code == "KeyS") handleEditorChanged();
-    });
+    initCKE();
 });
