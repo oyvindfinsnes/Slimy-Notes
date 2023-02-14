@@ -1,0 +1,58 @@
+.main-container {
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.toolbar {
+    padding-bottom: 10px;
+    border-bottom: 1px solid #353535;
+}
+
+.btn-create {
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    padding: 5px;
+    border-radius: 5px;
+    transition: background 0.2s ease;
+}
+
+.btn-create:hover {
+    background-color: #303030;
+}
+
+.btn-create > svg {
+    margin-left: 8px;
+}
+
+.note-container {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 5px;
+    box-sizing: border-box;
+    transition: background 0.2s ease;
+}
+
+.note-container:hover {
+    background-color: #303030;
+}
+
+.note-title {
+    width: 100%;
+    font-size: 13px;
+    outline: none;
+    padding: 5px;
+    padding-left: 10px;
+    border-left: 4px solid;
+    background-color: transparent;
+}
+
+.note-title[contenteditable="true"] {
+    background-color: #151515;
+}
+
+.btn-delete {
+    margin: 0 2px;
+}

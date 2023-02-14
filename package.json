@@ -1,0 +1,26 @@
+{
+  "name": "slimy-notes",
+  "version": "1.0.0",
+  "description": "A simple and customisable notes application for Windows",
+  "main": "app.js",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder --dir"
+  },
+  "build": {
+    "win": {
+      "target": "NSIS",
+      "icon": "app/src/icon/256x256.png"
+    }
+  },
+  "keywords": [
+    "Notes",
+    "Customisation"
+  ],
+  "author": "Zamt3x",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^22.2.0",
+    "electron-builder": "^23.6.0"
+  }
+}

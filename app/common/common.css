@@ -1,0 +1,88 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Anonymous+Pro:ital,wght@0,400;0,700;1,400;1,700&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lilita+One&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;0,1000;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900;1,1000&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
+body {
+    -webkit-user-select: none;
+    margin: 0;
+    width: 100vw;
+    overflow: hidden;
+    height: calc(100vh);
+    font-size: 14px;
+    color: #ffffff;
+    font-family: "Roboto";
+}
+
+.hideme {
+    display: none;
+}
+
+.dropdown-container {
+    display: none;
+    position: absolute;
+}
+
+.dropdown-container.triggered {
+    display: block;
+}
+
+.topbar {
+    -webkit-app-region: drag;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 13px;
+}
+
+.appicon-container {
+    -webkit-app-region: no-drag;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 5px;
+}
+
+.appicon {
+    width: 20px;
+    height: auto;
+}
+
+.appicon-dropdown-container {
+    top: 30px;
+    left: 0;
+    z-index: 100;
+    font-size: 12px;
+    background-color: #151515;
+}
+
+.appicon-dropdown-item {
+    margin: 5px;
+    padding: 5px 10px;
+    transition: background-color 0.2s ease;
+}
+
+.appicon-dropdown-item:hover {
+    background-color: #303030;
+}
+
+.btn-close {
+    -webkit-app-region: no-drag;
+    cursor: pointer;
+    width: 35px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s ease;
+}
+
+.btn-close:hover {
+    background-color: #951919;
+}
