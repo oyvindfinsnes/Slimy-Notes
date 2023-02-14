@@ -6,7 +6,7 @@ const w = { min: 320, max: 1000 };
 const h = { min: 360, max: 1000 };
 
 let config;
-const configPath = path.join(__dirname, "noteconfig.json");
+const configPath = path.join(app.getPath("userData"), "noteconfig.json");
 
 let mainWindow = null;
 const activeNoteWindows = {};
