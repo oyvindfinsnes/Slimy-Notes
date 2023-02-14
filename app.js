@@ -58,8 +58,6 @@ const handleOpenNoteWindow = (e, name = `note${config.windows.length}`) => {
 	win.once("ready-to-show", () => win.show());
 	win.loadURL(path.join("file://", __dirname, "app", "note", "note.html"));
 
-	win.webContents.openDevTools();
-
 	return name;
 };
 
